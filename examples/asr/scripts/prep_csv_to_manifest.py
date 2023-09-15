@@ -5,6 +5,8 @@
 """"
 Convert speechbrain csv to nemo json manifest and upsample & save audio segments
 
+Only for Zaion data with a sample rate of 8000
+
 USAGE:
 ./prep_csv_to_manifest.py \
     --input_file_path /home/bhuang/corpus/speech/internal/hm_hm_merged/train_hmhm_merged_and_raw.csv \
@@ -46,6 +48,12 @@ def build_manifest(input_file_path, manifest_path, out_audio_dir=None):
         os.makedirs(manifest_dir)
 
     df = pd.read_csv(input_file_path)
+    # bh: nan in dekuple
+    # df = pd.read_csv(input_file_path, keep_default_na=False)
+    # df.columns = ["ID", "start", "end", "duration", "wrd", "wav"]
+    # print(df[df["wrd"].isna()])
+    # quit()
+
     # todo: np vectorization
     df_dict = df.to_dict("records")
     with open(manifest_path, "w") as fout:
