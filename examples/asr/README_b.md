@@ -62,28 +62,30 @@ Data splits
 |            Dataset            | Number of Files | Total Duration | Avg. Duration | Punctuation | Casing | Description                                                     |
 | :---------------------------: | :-------------: | :------------: | :-----------: | :---------: | :----: | --------------------------------------------------------------- |
 |        MCV-13/fr/train        |     509,300     |    732.02h     |     5.17s     |      ✅      |   ✅    | Crowd workers recording text from Wikipedia                     |
-<!-- |     MCV-13/fr/validation      |     16,114      |     25.81h     |     5.77s     |      ✅      |   ✅    |                                                                 | -->
-<!-- |        MCV-13/fr/test         |     16,114      |     26.21h     |     5.86s     |      ✅      |   ✅    |                                                                 | -->
 |         MLS/fr/train          |     258,213     |    1076.58h    |    15.01s     |      ❌      |   ❌    | LibriVox read audiobooks                                        |
-<!-- |       MLS/fr/validation       |      2,416      |     10.07h     |    15.01s     |      ❌      |   ❌    |                                                                 | -->
-<!-- |          MLS/fr/test          |      2,426      |     10.07h     |    14.94s     |      ❌      |   ❌    |                                                                 | -->
 |      Voxpopuli/fr/train       |     73,561      |    205.70h     |    10.07s     |      ✅      |   ❌?   | European Parliament event recordings (2009-2020)                |
-<!-- |    Voxpopuli/fr/validation    |      1,727      |     4.96h      |    10.35s     |      ✅      |   ❌?   |                                                                 | -->
-<!-- |       Voxpopuli/fr/test       |      1,742      |     4.89h      |    10.12s     |      ✅      |   ❌?   |                                                                 | -->
 |        Fleurs/fr/train        |      3,193      |     10.32h     |    11.64s     |      ✅      |   ❌    | FLoRes in 102 languages                                         |
-<!-- |     Fleurs/fr/validation      |       289       |     0.80h      |     9.91s     |      ✅      |   ❌    |                                                                 | -->
-<!-- |        Fleurs/fr/test         |       676       |     1.95h      |    10.39s     |      ✅      |   ❌    |                                                                 | -->
 |        mTEDx/fr/train         |     116,045     |    175.83h     |     5.45s     |      ✅      |   ✅    | TEDx talks                                                      |
-<!-- |      mTEDx/fr/validation      |      1,036      |     1.81h      |     6.28s     |      ✅      |   ✅    |                                                                 | -->
-<!-- |         mTEDx/fr/test         |      1,059      |     1.55h      |     5.28s     |      ✅      |   ✅    |                                                                 | -->
 |        MediaSpeech/fr         |      2,498      |     10.00h     |    14.41s     |      ❌      |   ❌    | short speech segments extracted from YouTube                    |
 |          M-AILABS/fr          |     86,597      |    181.90h     |     7.56s     |      ✅      |   ✅    | Most of the data is based on LibriVox and Project Gutenberg     |
 | African-Accented-French/train |      9,401      |     11.68h     |     4.47s     |      ✅      |   ❌    | From Cameroon, Chad, Congo, Gabon, and Niger                    |
-<!-- | African-Accented-French/test  |      1,985      |     1.69h      |     3.07s     |      ✅      |   ❌    |                                                                 | -->
 |        Lingua-Libre/fr        |     257,927     |     91.52h     |     1.28s     |      ❌      |   ❌    | Wikimédia France, short audios                                  |
 |           Att-HACK            |     36,634      |     27.12h     |     2.66s     |      ❌      |   ❌    | Acted expressive speech in French (from 3 to 5 for each phrase) |
 |        PolyAI/minds14         |       539       |     1.25h      |     8.36s     |      ❌      |   ❌    | SLU in e-banking domain                                         |
 |             Total             |    1,353,908    |    2523.92h    |     6.71s     |             |        |                                                                 |
+
+<!-- |     MCV-13/fr/validation      |     16,114      |     25.81h     |     5.77s     |      ✅      |   ✅    |                                                                 |
+|       MLS/fr/validation       |      2,416      |     10.07h     |    15.01s     |      ❌      |   ❌    |                                                                 |
+|    Voxpopuli/fr/validation    |      1,727      |     4.96h      |    10.35s     |      ✅      |   ❌?   |                                                                 |
+|     Fleurs/fr/validation      |       289       |     0.80h      |     9.91s     |      ✅      |   ❌    |                                                                 |
+|      mTEDx/fr/validation      |      1,036      |     1.81h      |     6.28s     |      ✅      |   ✅    |                                                                 |
+
+|        MCV-13/fr/test         |     16,114      |     26.21h     |     5.86s     |      ✅      |   ✅    |                                                                 |
+|          MLS/fr/test          |      2,426      |     10.07h     |    14.94s     |      ❌      |   ❌    |                                                                 |
+|       Voxpopuli/fr/test       |      1,742      |     4.89h      |    10.12s     |      ✅      |   ❌?   |                                                                 |
+|        Fleurs/fr/test         |       676       |     1.95h      |    10.39s     |      ✅      |   ❌    |                                                                 |
+|         mTEDx/fr/test         |      1,059      |     1.55h      |     5.28s     |      ✅      |   ✅    |                                                                 |
+| African-Accented-French/test  |      1,985      |     1.69h      |     3.07s     |      ✅      |   ❌    |                                                                 | -->
 
 Postprocessing
 
