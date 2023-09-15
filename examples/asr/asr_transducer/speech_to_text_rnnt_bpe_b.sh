@@ -100,8 +100,9 @@ NEMO_GIT_FOLDER="/home/bhuang/asr/NeMo"
 # ?   decoding_config.preserve_alignments = True, decoding_config.fused_batch_size = -1  # temporarily stop fused batch during inference.
 # ? exp_manager.checkpoint_callback_params.save_best_model=True \
 
-# todo: stochastic_depth_drop_prob
+# todo: stochastic_depth_drop_prob, dropout too high?, multiple gpus
 
+# bh: online augmentation
 # +model.train_ds.augmentor.white_noise.prob=1.0 \
 # +model.train_ds.augmentor.white_noise.min_level=-90 \
 # +model.train_ds.augmentor.white_noise.max_level=-46 \
@@ -110,16 +111,20 @@ NEMO_GIT_FOLDER="/home/bhuang/asr/NeMo"
 # +model.train_ds.augmentor.shift.max_shift_ms=5.0 \
 
 # model.train_ds.manifest_filepath="/home/bhuang/corpus/speech/internal/hm_hm_16k/manifest_nemo/train_hmhm_merged_and_raw.json" \
+# model.train_ds.manifest_filepath="/home/bhuang/corpus/speech/internal/hm_hm_16k/manifest_nemo/train_hmhm_merged_and_raw_wo_space_after_apostrophe.json" \
+# model.train_ds.manifest_filepath="/home/bhuang/asr/NeMo/examples/asr/data/train_hmhm_merged_and_raw_wo_space_after_apostrophe_augmented/train_hmhm_merged_and_raw_wo_space_after_apostrophe_augmented_and_raw.json" \
 
+# todo
+# +init_from_nemo_model.model.path="/home/bhuang/.cache/torch/NeMo/NeMo_1.13.0rc0/stt_fr_conformer_transducer_large/0afcc58c13c5341db452f7a37e5ee0bd/stt_fr_conformer_transducer_large.nemo" \
 
-# exp_manager.resume_if_exists=True \
+    # exp_manager.resume_if_exists=True \
 
 # train
 python ${NEMO_GIT_FOLDER}/examples/asr/asr_transducer/speech_to_text_rnnt_bpe_b.py \
     --config-path="../conf/conformer" --config-name="conformer_transducer_bpe" \
     name="stt_fr_conformer_transducer_large" \
-    +init_from_nemo_model.model.path="/home/bhuang/.cache/torch/NeMo/NeMo_1.13.0rc0/stt_fr_conformer_transducer_large/0afcc58c13c5341db452f7a37e5ee0bd/stt_fr_conformer_transducer_large.nemo" \
-    model.train_ds.manifest_filepath="/home/bhuang/asr/NeMo/examples/asr/data/train_hmhm_merged_and_raw_wo_space_after_apostrophe_augmented/train_hmhm_merged_and_raw_wo_space_after_apostrophe_augmented_and_raw.json" \
+    +init_from_pretrained_model="stt_fr_conformer_transducer_large" \
+    model.train_ds.manifest_filepath="/home/bhuang/corpus/speech/internal/hm_hm_16k/manifest_nemo/train_hmhm_merged_and_raw_wo_space_after_apostrophe.json" \
     model.train_ds.batch_size=8 \
     model.train_ds.use_start_end_token=True \
     model.train_ds.trim_silence=True \
@@ -141,6 +146,11 @@ python ${NEMO_GIT_FOLDER}/examples/asr/asr_transducer/speech_to_text_rnnt_bpe_b.
     +model.test_ds.trim_silence=True \
     model.tokenizer.dir="/home/bhuang/asr/NeMo/examples/asr/nemo_experiments/tokenizers/tokenizer_spe_bpe_v128" \
     model.tokenizer.type="bpe" \
+    model.encoder.dropout=0.05 \
+    model.encoder.dropout_pre_encoder=0.05 \
+    model.encoder.dropout_att=0.05 \
+    model.decoder.prednet.dropout=0.05 \
+    model.joint.jointnet.dropout=0.05 \
     model.joint.fused_batch_size=8 \
     model.optim.name="adamw" \
     model.optim.lr=0.0001 \
@@ -148,18 +158,18 @@ python ${NEMO_GIT_FOLDER}/examples/asr/asr_transducer/speech_to_text_rnnt_bpe_b.
     model.optim.sched.name="CosineAnnealing" \
     ~model.optim.sched.d_model \
     model.optim.sched.warmup_steps=2000 \
-    model.optim.sched.min_lr=1e-5 \
+    model.optim.sched.min_lr=1e-6 \
     model.spec_augment.time_masks=2 \
     trainer.devices=-1 \
     trainer.accelerator="gpu" \
     ~trainer.strategy \
     trainer.accumulate_grad_batches=32 \
     trainer.precision=16 \
-    trainer.max_epochs=16 \
+    trainer.max_epochs=32 \
     trainer.val_check_interval=0.5 \
-    +exp_manager.explicit_log_dir="/home/bhuang/asr/NeMo/examples/asr/nemo_experiments/stt_fr_conformer_transducer_large/hmhm_merged_and_raw_wo_space_after_apostrophe_augmented_and_raw_ft_pretrained_bpe_moderate_aug" \
+    +exp_manager.explicit_log_dir="/home/bhuang/asr/NeMo/examples/asr/nemo_experiments/stt_fr_conformer_transducer_large/hmhm_merged_and_raw_wo_space_after_apostrophe_augmented_and_raw_ft_pretrained_bpe_lowerdrp" \
     exp_manager.create_wandb_logger=True \
-    exp_manager.wandb_logger_kwargs.name="conformer-transducer-hmhm_merged_and_raw_wo_space_after_apostrophe_augmented_and_raw-ft-pretrained_bpe_moderate_aug" \
+    exp_manager.wandb_logger_kwargs.name="conformer-transducer-hmhm_merged_and_raw_wo_space_after_apostrophe_augmented_and_raw-ft-pretrained_bpe_lowerdrp" \
     exp_manager.wandb_logger_kwargs.project="nemo-asr-hmhm"
 
 
