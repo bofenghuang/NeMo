@@ -1,60 +1,68 @@
 #!/usr/bin/env bash
 # Copyright 2023  Bofeng Huang
 
+# Train stt_fr_fastconformer_hybrid_transducer_ctc_bpe model from scratch on public data
+
 export HYDRA_FULL_ERROR=1
 
-export CUDA_VISIBLE_DEVICES=1
+export TRANSFORMERS_CACHE="/projects/bhuang/.cache/huggingface/transformers"
+export HF_DATASETS_CACHE="/projects/bhuang/.cache/huggingface/datasets"
+
+export CUDA_VISIBLE_DEVICES="3,4"
 
 NEMO_GIT_FOLDER="/home/bhuang/asr/NeMo"
 
-# model.tokenizer.dir=<path to directory of tokenizer (not full path to the vocab file!)> \
-# model.tokenizer.type=<either bpe or wpe> \
+# tokenizer
+tokenizer_dir="/home/bhuang/asr/NeMo/examples/asr/nemo_experiments/tokenizers_general/tokenizer_spe_unigram_v1024"
+# train data manifest
+# train_manifest_filepath="/projects/bhuang/corpus/speech/nemo_manifests/final/2023-09-14/train_asr_processed_dedup256.json"
+# train tarred data
+tardir="/projects/bhuang/corpus/speech/nemo_manifests/final/2023-09-14/train_asr_processed_dedup256_tarred"
+train_manifest_filepath="[[$tardir/bucket1/tarred_audio_manifest.json],[$tardir/bucket2/tarred_audio_manifest.json],[$tardir/bucket3/tarred_audio_manifest.json],[$tardir/bucket4/tarred_audio_manifest.json]]"
+train_tarred_audio_filepaths="[[$tardir/bucket1/audio__OP_0..7_CL_.tar],[$tardir/bucket2/audio__OP_0..7_CL_.tar],[$tardir/bucket3/audio__OP_0..7_CL_.tar],[$tardir/bucket4/audio__OP_0..7_CL_.tar]]"
+# valida data manifedt
+validation_manifest_filepath="[/projects/bhuang/corpus/speech/nemo_manifests/mozilla-foundation/common_voice_13_0/fr/validation/validation_mozilla-foundation_common_voice_13_0_manifest_normalized.json,/projects/bhuang/corpus/speech/nemo_manifests/facebook/multilingual_librispeech/french/validation/validation_facebook_multilingual_librispeech_manifest_normalized.json,/projects/bhuang/corpus/speech/nemo_manifests/facebook/voxpopuli/fr/validation/validation_facebook_voxpopuli_manifest_normalized.json,/projects/bhuang/corpus/speech/nemo_manifests/google/fleurs/fr_fr/validation/validation_google_fleurs_manifest_normalized.json,/projects/bhuang/corpus/speech/nemo_manifests/mtedx/fr-fr/valid/valid_mtedx_manifest_normalized.json]"
+# output
+outdir="/home/bhuang/asr/NeMo/examples/asr/nemo_experiments/stt_fr_fastconformer_hybrid_transducer_ctc_bpe/large_bs2048_lr1e3"
 
-# ~trainer.strategy \
-# trainer.strategy="ddp" \
+wandb_name="${outdir##*/}"
 
-# +init_from_nemo_model.model.path
-# +init_from_nemo_model.model.path="/home/bhuang/.cache/torch/NeMo/NeMo_1.13.0rc0/stt_fr_conformer_transducer_large/0afcc58c13c5341db452f7a37e5ee0bd/stt_fr_conformer_transducer_large.nemo" \
-# +init_from_pretrained_model="stt_fr_conformer_transducer_large" \
+# tips:
+# If fp16 is not stable and model diverges after some epochs, you may use fp32.
+# Default learning parameters in this config are set for global batch size of 2K while you may use lower values.
+# hydra override: https://hydra.cc/docs/advanced/override_grammar/basic
 
-python ${NEMO_GIT_FOLDER}/examples/asr/asr_hybrid_transducer_ctc/speech_to_text_hybrid_rnnt_ctc_bpe_b.py \
-    --config-path="../conf/conformer/hybrid_transducer_ctc" --config-name="conformer_hybrid_transducer_ctc_bpe" \
-    name="stt_fr_asr_hybrid_transducer_large" \
-    +init_from_nemo_model.model.path="/home/bhuang/.cache/torch/NeMo/NeMo_1.13.0rc0/stt_fr_conformer_transducer_large/0afcc58c13c5341db452f7a37e5ee0bd/stt_fr_conformer_transducer_large.nemo" \
-    model.train_ds.manifest_filepath="/home/bhuang/corpus/speech/internal/hm_hm_16k/manifest_nemo/train_hmhm_merged_and_raw_wo_space_after_apostrophe.json" \
-    model.train_ds.batch_size=8 \
-    model.train_ds.use_start_end_token=True \
-    model.train_ds.trim_silence=True \
+    # model.train_ds.bucketing_batch_size=64 \
+    # model.train_ds.bucketing_strategy="fully_randomized" \
+    # exp_manager.resume_if_exists=True \
+
+python ${NEMO_GIT_FOLDER}/examples/asr/asr_hybrid_transducer_ctc/speech_to_text_hybrid_rnnt_ctc_bpe.py \
+    --config-path="../conf/fastconformer/hybrid_transducer_ctc" --config-name="fastconformer_hybrid_transducer_ctc_bpe" \
+    name="stt_fr_fastconformer_hybrid_transducer_ctc_bpe_large" \
+    model.train_ds.manifest_filepath=$train_manifest_filepath \
+    model.train_ds.is_tarred=True \
+    model.train_ds.tarred_audio_filepaths=$train_tarred_audio_filepaths \
+    model.train_ds.shuffle_n=528387 \
+    model.train_ds.batch_size=32 \
     model.train_ds.max_duration=30 \
-    model.validation_ds.manifest_filepath="/home/bhuang/corpus/speech/internal/hm_hm_16k/manifest_nemo/test_hmhm_wo_space_after_apostrophe.json" \
-    model.validation_ds.batch_size=8 \
-    model.validation_ds.use_start_end_token=True \
-    +model.validation_ds.trim_silence=True \
-    model.test_ds.manifest_filepath="/home/bhuang/corpus/speech/internal/hm_hm_16k/manifest_nemo/test_hmhm_wo_space_after_apostrophe.json" \
-    model.test_ds.batch_size=8 \
-    model.test_ds.use_start_end_token=True \
-    +model.test_ds.trim_silence=True \
-    model.tokenizer.dir="/home/bhuang/asr/NeMo/examples/asr/nemo_experiments/tokenizers/tokenizer_spe_bpe_v128" \
+    model.train_ds.min_duration=0.1 \
+    model.validation_ds.manifest_filepath=$validation_manifest_filepath \
+    model.validation_ds.batch_size=32 \
+    +model.validation_ds.max_duration=30 \
+    +model.validation_ds.min_duration=0.1 \
+    ~model.test_ds \
+    model.tokenizer.dir=$tokenizer_dir \
     model.tokenizer.type="bpe" \
-    model.aux_ctc.ctc_loss_weight=0.3 \
-    model.joint.fused_batch_size=8 \
-    model.optim.name="adamw" \
-    model.optim.lr=0.0001 \
-    model.optim.betas=[0.9,0.999] \
-    model.optim.weight_decay=0.0001 \
+    model.optim.lr=0.001 \
     model.optim.sched.name="CosineAnnealing" \
     ~model.optim.sched.d_model \
-    model.optim.sched.warmup_steps=2000 \
-    model.spec_augment.time_masks=2 \
-    trainer.devices=-1 \
+    model.optim.sched.warmup_steps=5000 \
+    model.optim.sched.min_lr=0.0001 \
+    trainer.max_epochs=100 \
     trainer.accelerator="gpu" \
-    ~trainer.strategy \
     trainer.accumulate_grad_batches=32 \
     trainer.precision=16 \
-    trainer.max_epochs=32 \
-    trainer.val_check_interval=0.5 \
-    +exp_manager.explicit_log_dir="/home/bhuang/asr/NeMo/examples/asr/nemo_experiments/stt_fr_asr_hybrid_transducer_large/hmhm_merged_and_raw_ft_pretrained_bpe" \
-    exp_manager.resume_if_exists=True \
+    exp_manager.exp_dir=$outdir \
     exp_manager.create_wandb_logger=True \
-    exp_manager.wandb_logger_kwargs.name="asr-hybrid-transducer-hmhm-merged-and-raw-ft_pretrained_bpe" \
-    exp_manager.wandb_logger_kwargs.project="nemo-asr-hmhm"
+    exp_manager.wandb_logger_kwargs.name=$wandb_name \
+    exp_manager.wandb_logger_kwargs.project="nemo-asr-general"

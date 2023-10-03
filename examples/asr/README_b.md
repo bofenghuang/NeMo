@@ -29,9 +29,7 @@ unigram vocab on hm-hm is weird
 
 ## Train stt_fr_fastconformer_hybrid_transducer_ctc_bpe model from scratch on public data
 
-### Data Collection and Curation
-
-Scripts
+Data Collection and Curation
 
 ```bash
 # download and convert dataset to NeMo's manifest file
@@ -74,28 +72,52 @@ Data splits
 |        PolyAI/minds14         |       539       |     1.25h      |     8.36s     |      ❌      |   ❌    | SLU in e-banking domain                                         |
 |             Total             |    1,353,908    |    2523.92h    |     6.71s     |             |        |                                                                 |
 
-<!-- |     MCV-13/fr/validation      |     16,114      |     25.81h     |     5.77s     |      ✅      |   ✅    |                                                                 |
-|       MLS/fr/validation       |      2,416      |     10.07h     |    15.01s     |      ❌      |   ❌    |                                                                 |
-|    Voxpopuli/fr/validation    |      1,727      |     4.96h      |    10.35s     |      ✅      |   ❌?   |                                                                 |
-|     Fleurs/fr/validation      |       289       |     0.80h      |     9.91s     |      ✅      |   ❌    |                                                                 |
-|      mTEDx/fr/validation      |      1,036      |     1.81h      |     6.28s     |      ✅      |   ✅    |                                                                 |
+Validation
 
-|        MCV-13/fr/test         |     16,114      |     26.21h     |     5.86s     |      ✅      |   ✅    |                                                                 |
-|          MLS/fr/test          |      2,426      |     10.07h     |    14.94s     |      ❌      |   ❌    |                                                                 |
-|       Voxpopuli/fr/test       |      1,742      |     4.89h      |    10.12s     |      ✅      |   ❌?   |                                                                 |
-|        Fleurs/fr/test         |       676       |     1.95h      |    10.39s     |      ✅      |   ❌    |                                                                 |
-|         mTEDx/fr/test         |      1,059      |     1.55h      |     5.28s     |      ✅      |   ✅    |                                                                 |
-| African-Accented-French/test  |      1,985      |     1.69h      |     3.07s     |      ✅      |   ❌    |                                                                 | -->
+|         Dataset         | Number of Files | Total Duration | Avg. Duration |
+| :---------------------: | :-------------: | :------------: | :-----------: |
+|  MCV-13/fr/validation   |     16,114      |     25.81h     |     5.77s     |
+|    MLS/fr/validation    |      2,416      |     10.07h     |    15.01s     |
+| Voxpopuli/fr/validation |      1,727      |     4.96h      |    10.35s     |
+|  Fleurs/fr/validation   |       289       |     0.80h      |     9.91s     |
+|   mTEDx/fr/validation   |      1,036      |     1.81h      |     6.28s     |
+
+Test
+
+|           Dataset            | Number of Files | Total Duration | Avg. Duration |
+| :--------------------------: | :-------------: | :------------: | :-----------: |
+|        MCV-13/fr/test        |     16,114      |     26.21h     |     5.86s     |
+|         MLS/fr/test          |      2,426      |     10.07h     |    14.94s     |
+|      Voxpopuli/fr/test       |      1,742      |     4.89h      |    10.12s     |
+|        Fleurs/fr/test        |       676       |     1.95h      |    10.39s     |
+|        mTEDx/fr/test         |      1,059      |     1.55h      |     5.28s     |
+| African-Accented-French/test |      1,985      |     1.69h      |     3.07s     |
 
 Postprocessing
 
-|         Stage         | Number of Files | Total Duration |
-| :-------------------: | :-------------: | :------------: |
-|     Initial load      |    1,326,101    |    2510.74h    |
-|   Remove empty text   |    1,322,520    |    2499.58h    |
-|       Heuristic       |    1,320,244    |    2493.98h    |
+| Stage                 | Number of Files | Total Duration |
+| --------------------- | :-------------: | :------------: |
+| Initial load          |    1,326,101    |    2510.74h    |
+| Remove empty text     |    1,322,520    |    2499.58h    |
+| Heuristic             |    1,320,244    |    2493.98h    |
 | Remove short and long |    1,319,530    |    2486.12h    |
-|     Dedup by text     |    1,318,655    |    2485.75h    |
+| Dedup by text         |    1,318,655    |    2485.75h    |
+
+Bucket datasets
+
+```bash
+# may result into training speeedup of more than 2X
+python ../../scripts/speech_recognition/convert_to_tarred_audio_dataset.py \
+    --manifest_path="/projects/bhuang/corpus/speech/nemo_manifests/final/2023-09-14/train_asr_processed_dedup256.json" \
+    --target_dir="/projects/bhuang/corpus/speech/nemo_manifests/final/2023-09-14/train_asr_processed_dedup256_tarred_sharded512" \
+    --num_shards=512 \
+    --buckets_num=4 \
+    --max_duration=30.0 \
+    --min_duration=0.1 \
+    --shuffle --shuffle_seed=1 \
+    --sort_in_shards \
+    --workers=8
+```
 
 Estimate tokenizer
 
@@ -110,18 +132,16 @@ python ../../scripts/tokenizers/process_asr_text_tokenizer.py \
     --log
 ```
 
-Bucket datasets
+Train
 
 ```bash
-# may result into training speeedup of more than 2X
-python ../../scripts/speech_recognition/convert_to_tarred_audio_dataset.py \
-    --manifest_path="/projects/bhuang/corpus/speech/nemo_manifests/final/2023-09-14/train_asr_processed_dedup256.json" \
-    --target_dir="/projects/bhuang/corpus/speech/nemo_manifests/final/2023-09-14/train_asr_processed_dedup256_tarred" \
-    --num_shards=8 \
-    --buckets_num=4 \
-    --max_duration=30.0 \
-    --min_duration=0.1 \
-    --shuffle --shuffle_seed=1 \
-    --sort_in_shards \
-    --workers=8
+./asr_hybrid_transducer_ctc/speech_to_text_hybrid_rnnt_ctc_bpe_b.sh
+```
+
+
+Average checkpoints
+
+```bash
+python ${NEMO_GIT_FOLDER}/scripts/checkpoint_averaging/checkpoint_averaging.py \
+    nemo_experiments/stt_fr_fastconformer_hybrid_transducer_ctc_bpe/large_bs2048_lr1e3/stt_fr_fastconformer_hybrid_transducer_ctc_bpe_large/2023-09-18_20-33-08/checkpoints
 ```
