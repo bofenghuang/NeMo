@@ -212,36 +212,47 @@ outdir="/projects/bhuang/corpus/speech/nemo_manifests"
 
 # mtedx
 # fr-fr
+# python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
+#     output_dir="$outdir" \
+#     local_file="/projects/bhuang/corpus/speech/multilingual-tedx/fr-fr/train_asr.tsv" \
+#     path="mtedx" \
+#     name="fr-fr" \
+#     split="train" \
+#     text_column_name="tgt_text" \
+#     num_proc="$num_proc" \
+#     ensure_ascii="False" \
+#     use_auth_token="True"
+
+# python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
+#     output_dir="$outdir" \
+#     local_file="/projects/bhuang/corpus/speech/multilingual-tedx/fr-fr/valid_asr.tsv" \
+#     path="mtedx" \
+#     name="fr-fr" \
+#     split="valid" \
+#     text_column_name="tgt_text" \
+#     num_proc="$num_proc" \
+#     ensure_ascii="False" \
+#     use_auth_token="True"
+
+# python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
+#     output_dir="$outdir" \
+#     local_file="/projects/bhuang/corpus/speech/multilingual-tedx/fr-fr/test_asr.tsv" \
+#     path="mtedx" \
+#     name="fr-fr" \
+#     split="test" \
+#     text_column_name="tgt_text" \
+#     num_proc="$num_proc" \
+#     ensure_ascii="False" \
+#     use_auth_token="True"
+
+
+# hf eval data
 python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
     output_dir="$outdir" \
-    local_file="/projects/bhuang/corpus/speech/multilingual-tedx/fr-fr/train_asr.tsv" \
-    path="mtedx" \
-    name="fr-fr" \
-    split="train" \
-    text_column_name="tgt_text" \
+    path="speech-recognition-community-v2/dev_data" \
+    name="fr" \
+    split="validation" \
+    text_column_name="sentence" \
     num_proc="$num_proc" \
     ensure_ascii="False" \
     use_auth_token="True"
-
-python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
-    output_dir="$outdir" \
-    local_file="/projects/bhuang/corpus/speech/multilingual-tedx/fr-fr/valid_asr.tsv" \
-    path="mtedx" \
-    name="fr-fr" \
-    split="valid" \
-    text_column_name="tgt_text" \
-    num_proc="$num_proc" \
-    ensure_ascii="False" \
-    use_auth_token="True"
-
-python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
-    output_dir="$outdir" \
-    local_file="/projects/bhuang/corpus/speech/multilingual-tedx/fr-fr/test_asr.tsv" \
-    path="mtedx" \
-    name="fr-fr" \
-    split="test" \
-    text_column_name="tgt_text" \
-    num_proc="$num_proc" \
-    ensure_ascii="False" \
-    use_auth_token="True"
-
