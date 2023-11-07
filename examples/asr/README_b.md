@@ -39,6 +39,9 @@ scripts/convert_hf_dataset_to_nemo.sh
 # normalize early to debug easily
 scripts/normalize_dataset.sh
 
+# filter specific datasets
+python scripts/filter_dataset.py ...
+
 # dedup special datasets
 # repeated in Att-HACK, Lingua-Libre
 # mailabs overlap
@@ -145,3 +148,4 @@ Average checkpoints
 python ${NEMO_GIT_FOLDER}/scripts/checkpoint_averaging/checkpoint_averaging.py \
     nemo_experiments/stt_fr_fastconformer_hybrid_transducer_ctc_bpe/large_bs2048_lr1e3/stt_fr_fastconformer_hybrid_transducer_ctc_bpe_large/2023-09-18_20-33-08/checkpoints
 ```
+
