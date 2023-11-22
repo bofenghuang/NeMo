@@ -16,7 +16,7 @@ from datasets import load_dataset
 from hf_dataset_processing.file_utils import write_dataset_to_json
 
 
-def main(input_file_path, output_file_path, min_duration_s=0.1, max_duration_s=30, max_identical_text=5, num_proc=32):
+def main(input_file_path, output_file_path, min_words=0, min_duration_s=0.1, max_duration_s=30, max_identical_text=5, num_proc=32):
     dataset = load_dataset("json", data_files=input_file_path)["train"]
     print(f'Initial load: {len(dataset):,d} utterances, {sum(dataset["duration"]) / 3600:.2f}h')
 
@@ -27,7 +27,7 @@ def main(input_file_path, output_file_path, min_duration_s=0.1, max_duration_s=3
     dataset = dataset.filter(lambda x: x["text"] is not None and x["text"], num_proc=num_proc)
     # at least one alphabet
     dataset = dataset.filter(lambda x: bool(re.search(rf"[\w]", x["text"])), num_proc=num_proc)
-    print(f'Remove empty text: {len(dataset):,d} utterances, {sum(dataset["duration"]) / 3600:.2f}h')
+    print(f'Filter empty text: {len(dataset):,d} utterances, {sum(dataset["duration"]) / 3600:.2f}h')
 
     # still got number: number like "MP4" can't be converted
     # dataset = dataset.filter(
@@ -36,11 +36,18 @@ def main(input_file_path, output_file_path, min_duration_s=0.1, max_duration_s=3
     # )
     # print(f'Heuristic: {len(dataset):,d} utterances, {sum(dataset["duration"]) / 3600:.2f}h')
 
-    # remove short and long utt
+    # filter by num of words
+    dataset = dataset.filter(
+        lambda x: len(x["text"].split()) >= min_words,
+        num_proc=num_proc,
+    )
+    print(f'Filter by num of words: {len(dataset):,d} utterances, {sum(dataset["duration"]) / 3600:.2f}h')
+
+    # filter by duration
     dataset = dataset.filter(
         lambda x: x["duration"] > min_duration_s and x["duration"] < max_duration_s, num_proc=num_proc,
     )
-    print(f'Remove short and long: {len(dataset):,d} utterances, {sum(dataset["duration"]) / 3600:.2f}h')
+    print(f'Filter by duration: {len(dataset):,d} utterances, {sum(dataset["duration"]) / 3600:.2f}h')
 
     # dedup text
     # https://github.com/huggingface/datasets/issues/2514
@@ -72,7 +79,7 @@ def main(input_file_path, output_file_path, min_duration_s=0.1, max_duration_s=3
     text_counts = defaultdict(int)
     dataset = dataset.filter(check_uniques, fn_kwargs={"text_counts": text_counts})
     dataset = dataset.remove_columns("hash")
-    dataset = dataset.sort(["split", "audio_filepath"])
+    dataset = dataset.sort(["split", "audio_filepath"] if "split" in dataset.features else ["audio_filepath"])
     print(f'Dedup by text: {len(dataset):,d} utterances, {sum(dataset["duration"]) / 3600:.2f}h')
 
     write_dataset_to_json(dataset, output_file_path)

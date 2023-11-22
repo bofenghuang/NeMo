@@ -54,12 +54,18 @@ def main(input_file, text_column_name="text", suffix="_normalized", num_proc=32)
             # (Rires et applaudissements) La sexualité des vieux
             s = re.sub(r"[<\[][^>\]]*[>\]]", "", s)  # remove words between brackets
             s = re.sub(r"\(([^)]+?)\)", "", s)  # remove words between parenthesis
-            s = re.sub(r"^[A-Z\s]+(?:et)?[A-Z\s]+:", "", s) # remvoe speaker name, e.g., "M : Je suis dans le marketing digital." 
+            s = re.sub(r"^[A-Z\s]+(?:et)?[A-Z\s]+:", "", s)  # remvoe speaker name, e.g., "M : Je suis dans le marketing digital."
 
         # s = normalizer(s, do_lowercase=True, do_ignore_words=False, symbols_to_keep="'-", do_num2text=True)
         # todo: can't …
         symbols_to_keep = "'-,.?!:;$%@&#~()/"
         s = normalizer(s, do_lowercase=False, do_ignore_words=False, symbols_to_keep=symbols_to_keep, do_num2text=False, do_text2num=True)
+
+        s = re.sub(rf"^([{normalizer.kept_chars}])", lambda x: x.group().upper(), s)  # Uppercase 1st character
+        s = re.sub(rf"(?<=[\.\?!]\s)([{normalizer.kept_chars}])", lambda x: x.group().upper(), s)  # Uppercase 1st non-space character after .?!
+        s = re.sub(r"[,]+$", ".", s)  # replace comma at the end by period
+        # s = re.sub(rf"([{normalizer.kept_chars}])$", r"\1.", s)  # add period if no punctuation at the end
+        s = re.sub(rf"^[{symbols_to_keep}\s]+", "", s)  # remove starting punctuation
 
         example[text_column_name] = s
 

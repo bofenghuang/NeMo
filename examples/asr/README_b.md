@@ -40,13 +40,14 @@ scripts/convert_hf_dataset_to_nemo.sh
 scripts/normalize_dataset.sh
 
 # filter specific datasets
-python scripts/filter_dataset.py ...
+python scripts/filter_dataset.py /projects/bhuang/corpus/speech/nemo_manifests/facebook/multilingual_librispeech/french/train/train_facebook_multilingual_librispeech_manifest_normalized_pnc_cleaned.json /projects/bhuang/corpus/speech/nemo_manifests/facebook/multilingual_librispeech/french/train/train_facebook_multilingual_librispeech_manifest_normalized_pnc_cleaned_filtered.json
 
 # dedup special datasets
 # repeated in Att-HACK, Lingua-Libre
 # mailabs overlap
-python scripts/preprocess_dataset.py /projects/bhuang/corpus/speech/nemo_manifests/lingualibre/FR/lingualibre_manifest_normalized.json /projects/bhuang/corpus/speech/nemo_manifests/lingualibre/FR/lingualibre_manifest_normalized_min05_dedup4.json --min_duration_s 0.5 --max_identical_text 4
 python scripts/preprocess_dataset.py /projects/bhuang/corpus/speech/nemo_manifests/att_hack/att_hack_manifest_normalized.json /projects/bhuang/corpus/speech/nemo_manifests/att_hack/att_hack_manifest_normalized_min1_dedup256.json --min_duration_s 1 --max_identical_text 256
+python scripts/preprocess_dataset.py /projects/bhuang/corpus/speech/nemo_manifests/lingualibre/FR/lingualibre_manifest_normalized.json /projects/bhuang/corpus/speech/nemo_manifests/lingualibre/FR/lingualibre_manifest_normalized_min05_dedup4.json --min_duration_s 0.5 --max_identical_text 4
+python scripts/preprocess_dataset.py /projects/bhuang/corpus/speech/nemo_manifests/lingualibre/FR/lingualibre_manifest_normalized_min05_dedup4_pnc_cleaned.json /projects/bhuang/corpus/speech/nemo_manifests/lingualibre/FR/lingualibre_manifest_normalized_min5_mindur05_dedup4_pnc_cleaned.json --min_duration_s 0.5 --max_identical_text 4 --min_words 5
 
 # merge into one manifest
 python scripts/merge_datasets.py
