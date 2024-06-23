@@ -4,12 +4,14 @@
 # Convert datasets on Hugging Face Hub or local datasets to NeMo's manifest format.
 # Also resample and export to wav files.
 
-export HF_DATASETS_CACHE="/projects/bhuang/.cache/huggingface/datasets"
+export HF_HOME="/projects/bhuang/.cache/huggingface"
 
 NEMO_GIT_FOLDER="/home/bhuang/asr/NeMo"
 
-num_proc="32"
-outdir="/projects/bhuang/corpus/speech/nemo_manifests"
+num_proc="64"
+# num_proc="128"
+# outdir="/projects/bhuang/corpus/speech/nemo_manifests"
+outdir="/home/bhuang/corpus/speech/public/nemo_manifests"
 
 # mcv
 # python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
@@ -247,12 +249,45 @@ outdir="/projects/bhuang/corpus/speech/nemo_manifests"
 
 
 # hf eval data
+# python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
+#     output_dir="$outdir" \
+#     path="speech-recognition-community-v2/dev_data" \
+#     name="fr" \
+#     split="validation" \
+#     text_column_name="sentence" \
+#     num_proc="$num_proc" \
+#     ensure_ascii="False" \
+#     use_auth_token="True"
+
+# yodas
+# python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
+#     output_dir="$outdir" \
+#     path="espnet/yodas" \
+#     name="fr000" \
+#     split="train" \
+#     text_column_name="text" \
+#     num_proc="$num_proc" \
+#     ensure_ascii="False" \
+#     use_auth_token="True"
+
+
+# python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
+#     output_dir="$outdir" \
+#     path="espnet/yodas" \
+#     name="fr100" \
+#     split="train" \
+#     text_column_name="text" \
+#     num_proc="$num_proc" \
+#     ensure_ascii="False" \
+#     use_auth_token="True"
+
+
 python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
     output_dir="$outdir" \
-    path="speech-recognition-community-v2/dev_data" \
-    name="fr" \
-    split="validation" \
-    text_column_name="sentence" \
+    path="espnet/yodas" \
+    name="fr101" \
+    split="train" \
+    text_column_name="text" \
     num_proc="$num_proc" \
     ensure_ascii="False" \
     use_auth_token="True"
