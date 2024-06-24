@@ -111,6 +111,7 @@ class HFDatasetConversionConfig:
     text_column_name: Optional[str] = None
     # bh:
     local_file: Optional[str] = None  # local file
+    trust_remote_code: bool = False
 
     # NeMo dataset conversion
     sampling_rate: int = 16000
@@ -392,6 +393,7 @@ def main(cfg: HFDatasetConversionConfig):
                 cache_dir=None,
                 streaming=cfg.streaming,
                 token=cfg.use_auth_token,
+                trust_remote_code=cfg.trust_remote_code,
             )
 
         print(dataset)

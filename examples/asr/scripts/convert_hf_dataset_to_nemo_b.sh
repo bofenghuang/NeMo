@@ -1,27 +1,40 @@
 #!/usr/bin/env bash
 # Copyright 2023  Bofeng Huang
 
+set -x -e
+
+module purge
+module load git-lfs
+module load unrar
+module load anaconda-py3/2023.03
+module load cuda/12.1.0
+# conda activate speech
+conda activate asr
+
 # Convert datasets on Hugging Face Hub or local datasets to NeMo's manifest format.
 # Also resample and export to wav files.
 
-export HF_HOME="/projects/bhuang/.cache/huggingface"
+# export HF_HOME="/projects/bhuang/.cache/huggingface"
 
-NEMO_GIT_FOLDER="/home/bhuang/NeMo"
+# NEMO_GIT_FOLDER="/home/bhuang/asr/NeMo"
+NEMO_GIT_FOLDER="$HOME/NeMo"
 
-outdir="/projects/bhuang/corpus/speech/nemo_manifests"
+# outdir="/projects/bhuang/corpus/speech/nemo_manifests"
+# outdir="$ALL_CCFRWORK/corpus/speech/nemo_manifests"
+outdir="$ALL_CCFRSCRATCH/corpus/speech/nemo_manifests"
 
 num_proc="32"
 
 # mcv
-python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
-    output_dir="$outdir" \
-    path="mozilla-foundation/common_voice_17_0" \
-    name="it" \
-    split="train" \
-    text_column_name="sentence" \
-    num_proc="$num_proc" \
-    ensure_ascii="False" \
-    use_auth_token="True"
+# python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
+#     output_dir="$outdir" \
+#     path="mozilla-foundation/common_voice_17_0" \
+#     name="it" \
+#     split="train" \
+#     text_column_name="sentence" \
+#     num_proc="$num_proc" \
+#     ensure_ascii="False" \
+#     use_auth_token="True"
 
 # python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
 #     output_dir="$outdir" \
@@ -269,7 +282,7 @@ python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_
 # python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
 #     output_dir="$outdir" \
 #     path="espnet/yodas" \
-#     name="fr000" \
+#     name="it000" \
 #     split="train" \
 #     text_column_name="text" \
 #     num_proc="$num_proc" \
@@ -280,7 +293,7 @@ python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_
 # python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
 #     output_dir="$outdir" \
 #     path="espnet/yodas" \
-#     name="fr100" \
+#     name="it100" \
 #     split="train" \
 #     text_column_name="text" \
 #     num_proc="$num_proc" \
@@ -291,7 +304,7 @@ python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_
 # python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
 #     output_dir="$outdir" \
 #     path="espnet/yodas" \
-#     name="fr101" \
+#     name="it101" \
 #     split="train" \
 #     text_column_name="text" \
 #     num_proc="$num_proc" \
