@@ -374,6 +374,9 @@ def main(cfg: HFDatasetConversionConfig):
     if is_dataclass(cfg):
         cfg = OmegaConf.structured(cfg)
 
+    if cfg.num_proc < 0:
+        cfg.num_proc = max(1, os.cpu_count() // 2)
+
     # Prepare output subdirs
     prepare_output_dirs(cfg)
 
@@ -394,6 +397,7 @@ def main(cfg: HFDatasetConversionConfig):
                 streaming=cfg.streaming,
                 token=cfg.use_auth_token,
                 trust_remote_code=cfg.trust_remote_code,
+                num_proc=cfg.num_proc,
             )
 
         print(dataset)

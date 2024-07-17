@@ -1,5 +1,15 @@
-#!/usr/bin/env bash
-# Copyright 2023  Bofeng Huang
+#!/bin/bash
+#SBATCH --job-name=preprocessing
+#SBATCH --output=logs/%x/%j.out                 # output file (%j = job ID)
+#SBATCH --error=logs/%x/%j.err                  # error file (%j = job ID)
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1                     # crucial - only 1 task per dist per node!
+#SBATCH --cpus-per-task=32                      # number of cores per tasks
+#SBATCH --time=20:00:00                         # maximum execution time (HH:MM:SS)
+#SBATCH --qos=qos_gpu-t3                        # QoS
+#SBATCH --hint=nomultithread                    # we get physical cores not logical
+#SBATCH --partition=prepost
+#SBATCH --account=cjc@v100
 
 set -x -e
 
@@ -13,6 +23,9 @@ conda activate asr
 
 # Convert datasets on Hugging Face Hub or local datasets to NeMo's manifest format.
 # Also resample and export to wav files.
+
+# https://github.com/pytorch/audio/issues/1021#issuecomment-726915239
+export OMP_NUM_THREADS="1"
 
 # export HF_HOME="/projects/bhuang/.cache/huggingface"
 
@@ -34,6 +47,7 @@ num_proc="32"
 #     text_column_name="sentence" \
 #     num_proc="$num_proc" \
 #     ensure_ascii="False" \
+#     trust_remote_code="True" \
 #     use_auth_token="True"
 
 # python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
@@ -44,6 +58,7 @@ num_proc="32"
 #     text_column_name="sentence" \
 #     num_proc="$num_proc" \
 #     ensure_ascii="False" \
+#     trust_remote_code="True" \
 #     use_auth_token="True"
 
 # python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
@@ -54,6 +69,7 @@ num_proc="32"
 #     text_column_name="sentence" \
 #     num_proc="$num_proc" \
 #     ensure_ascii="False" \
+#     trust_remote_code="True" \
 #     use_auth_token="True"
 
 # exit 0;
@@ -162,110 +178,6 @@ num_proc="32"
 #     use_auth_token="True"
 
 # exit 0;
-
-# media-speech
-# python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
-#     output_dir="$outdir" \
-#     local_file="/projects/bhuang/corpus/speech/media-speech/data.tsv" \
-#     path="media_speech" \
-#     name="FR" \
-#     num_proc="$num_proc" \
-#     ensure_ascii="False" \
-#     use_auth_token="True"
-
-# mtedx
-# python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
-#     output_dir="$outdir" \
-#     local_file="/projects/bhuang/corpus/speech/multilingual-tedx/fr-fr/train_asr.tsv" \
-#     path="mtedx" \
-#     name="fr-fr" \
-#     split="train" \
-#     text_column_name="tgt_text" \
-#     num_proc="$num_proc" \
-#     ensure_ascii="False" \
-#     use_auth_token="True"
-
-# python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
-#     output_dir="$outdir" \
-#     local_file="/projects/bhuang/corpus/speech/multilingual-tedx/fr-fr/valid_asr.tsv" \
-#     path="mtedx" \
-#     name="fr-fr" \
-#     split="valid" \
-#     text_column_name="tgt_text" \
-#     num_proc="$num_proc" \
-#     ensure_ascii="False" \
-#     use_auth_token="True"
-
-# python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
-#     output_dir="$outdir" \
-#     local_file="/projects/bhuang/corpus/speech/multilingual-tedx/fr-fr/test_asr.tsv" \
-#     path="mtedx" \
-#     name="fr-fr" \
-#     split="test" \
-#     text_column_name="tgt_text" \
-#     num_proc="$num_proc" \
-#     ensure_ascii="False" \
-#     use_auth_token="True"
-
-# african_accented_french
-# python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
-#     output_dir="$outdir" \
-#     path="gigant/african_accented_french" \
-#     split="train" \
-#     text_column_name="sentence" \
-#     num_proc="$num_proc" \
-#     ensure_ascii="False" \
-#     use_auth_token="True"
-
-# python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
-#     output_dir="$outdir" \
-#     path="gigant/african_accented_french" \
-#     split="test" \
-#     text_column_name="sentence" \
-#     num_proc="$num_proc" \
-#     ensure_ascii="False" \
-#     use_auth_token="True"
-
-# PolyAI/minds14
-# python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
-#     output_dir="$outdir" \
-#     path="PolyAI/minds14" \
-#     name="fr-FR" \
-#     split="train" \
-#     text_column_name="transcription" \
-#     num_proc="$num_proc" \
-#     ensure_ascii="False" \
-#     use_auth_token="True"
-
-# m-ailabs
-# python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
-#     output_dir="$outdir" \
-#     local_file="/projects/bhuang/corpus/speech/m-ailabs/data.tsv" \
-#     path="m_ailabs" \
-#     name="FR" \
-#     text_column_name="clean_text" \
-#     num_proc="$num_proc" \
-#     ensure_ascii="False" \
-#     use_auth_token="True"
-
-# att-hack
-# python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
-#     output_dir="$outdir" \
-#     local_file="/projects/bhuang/corpus/speech/att-hack/data.tsv" \
-#     path="att_hack" \
-#     num_proc="$num_proc" \
-#     ensure_ascii="False" \
-#     use_auth_token="True"
-
-# lingualibre
-# python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
-#     output_dir="$outdir" \
-#     local_file="/projects/bhuang/corpus/speech/lingualibre/Q21-fra-French/data.tsv" \
-#     path="lingualibre" \
-#     name="FR" \
-#     num_proc="64" \
-#     ensure_ascii="False" \
-#     use_auth_token="True"
 
 # hf eval data
 # python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
