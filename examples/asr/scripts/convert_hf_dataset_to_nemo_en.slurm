@@ -53,7 +53,7 @@ num_proc="64"
 python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
     output_dir="$outdir" \
     path="mozilla-foundation/common_voice_17_0" \
-    name="fr" \
+    name="en" \
     split="train" \
     text_column_name="sentence" \
     num_proc="$num_proc" \
@@ -64,7 +64,7 @@ python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_
 python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
     output_dir="$outdir" \
     path="mozilla-foundation/common_voice_17_0" \
-    name="fr" \
+    name="en" \
     split="validation" \
     text_column_name="sentence" \
     num_proc="$num_proc" \
@@ -75,34 +75,9 @@ python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_
 # python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
 #     output_dir="$outdir" \
 #     path="mozilla-foundation/common_voice_17_0" \
-#     name="fr" \
+#     name="en" \
 #     split="test" \
 #     text_column_name="sentence" \
-#     num_proc="$num_proc" \
-#     ensure_ascii="False" \
-#     trust_remote_code="True" \
-#     use_auth_token="True"
-
-# exit 0;
-
-# mls
-python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
-    output_dir="$outdir" \
-    path="facebook/multilingual_librispeech" \
-    name="french" \
-    split="train" \
-    text_column_name="transcript" \
-    num_proc="$num_proc" \
-    ensure_ascii="False" \
-    trust_remote_code="True" \
-    use_auth_token="True"
-
-# python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
-#     output_dir="$outdir" \
-#     path="facebook/multilingual_librispeech" \
-#     name="french" \
-#     split="test" \
-#     text_column_name="transcript" \
 #     num_proc="$num_proc" \
 #     ensure_ascii="False" \
 #     trust_remote_code="True" \
@@ -114,7 +89,7 @@ python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_
 python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
     output_dir="$outdir" \
     path="facebook/voxpopuli" \
-    name="fr" \
+    name="en" \
     split="train" \
     text_column_name="normalized_text" \
     num_proc="$num_proc" \
@@ -135,24 +110,25 @@ python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_
 
 # exit 0;
 
-# fleurs
-python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
-    output_dir="$outdir" \
-    path="google/fleurs" \
-    name="fr_fr" \
-    split="validation" \
-    text_column_name="raw_transcription" \
-    num_proc="$num_proc" \
-    ensure_ascii="False" \
-    trust_remote_code="True" \
-    use_auth_token="True"
+# People's Speech
+export num_proc=1
+# python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
+#     output_dir="$outdir" \
+#     path="MLCommons/peoples_speech" \
+#     name="clean" \
+#     split="train" \
+#     text_column_name="text" \
+#     num_proc="$num_proc" \
+#     ensure_ascii="False" \
+#     trust_remote_code="True" \
+#     use_auth_token="True"
 
 # python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
 #     output_dir="$outdir" \
-#     path="google/fleurs" \
-#     name="fr_fr" \
-#     split="test" \
-#     text_column_name="raw_transcription" \
+#     path="MLCommons/peoples_speech" \
+#     name="clean_sa" \
+#     split="train" \
+#     text_column_name="text" \
 #     num_proc="$num_proc" \
 #     ensure_ascii="False" \
 #     trust_remote_code="True" \
@@ -160,12 +136,50 @@ python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_
 
 # exit 0;
 
-# african_accented_french
+# GigaSpeech
 # python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
 #     output_dir="$outdir" \
-#     path="gigant/african_accented_french" \
+#     path="speechcolab/gigaspeech" \
+#     name="l" \
 #     split="train" \
-#     text_column_name="sentence" \
+#     num_proc="$num_proc" \
+#     ensure_ascii="False" \
+#     trust_remote_code="True" \
+#     use_auth_token="True"
+
+# exit 0;
+
+# ls
+# python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
+#     output_dir="$outdir" \
+#     path="openslr/librispeech_asr" \
+#     split="train.clean.100+train.clean.360+train.other.500" \
+#     num_proc="$num_proc" \
+#     ensure_ascii="False" \
+#     trust_remote_code="True" \
+#     use_auth_token="True"
+
+# TED-LIUM
+# todo: update norm to deal {}
+# python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
+#     output_dir="$outdir" \
+#     path="LIUM/tedlium" \
+#     name="release3" \
+#     split="train" \
+#     num_proc="$num_proc" \
+#     ensure_ascii="False" \
+#     trust_remote_code="True" \
+#     use_auth_token="True"
+
+# todo: tedlium, Fisher, SwitchBoard, AMI, MCV (10?)
+
+# fleurs
+# python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
+#     output_dir="$outdir" \
+#     path="google/fleurs" \
+#     name="en_us" \
+#     split="validation" \
+#     text_column_name="raw_transcription" \
 #     num_proc="$num_proc" \
 #     ensure_ascii="False" \
 #     trust_remote_code="True" \
@@ -173,9 +187,10 @@ python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_
 
 # python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
 #     output_dir="$outdir" \
-#     path="gigant/african_accented_french" \
+#     path="google/fleurs" \
+#     name="en_us" \
 #     split="test" \
-#     text_column_name="sentence" \
+#     text_column_name="raw_transcription" \
 #     num_proc="$num_proc" \
 #     ensure_ascii="False" \
 #     trust_remote_code="True" \
@@ -187,7 +202,7 @@ python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_
 # python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
 #     output_dir="$outdir" \
 #     path="espnet/yodas" \
-#     name="fr000" \
+#     name="en000" \
 #     split="train" \
 #     text_column_name="text" \
 #     num_proc="$num_proc" \
@@ -198,7 +213,7 @@ python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_
 # python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
 #     output_dir="$outdir" \
 #     path="espnet/yodas" \
-#     name="fr100" \
+#     name="en001" \
 #     split="train" \
 #     text_column_name="text" \
 #     num_proc="$num_proc" \
@@ -209,7 +224,7 @@ python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_
 # python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
 #     output_dir="$outdir" \
 #     path="espnet/yodas" \
-#     name="fr101" \
+#     name="en002" \
 #     split="train" \
 #     text_column_name="text" \
 #     num_proc="$num_proc" \
@@ -220,7 +235,7 @@ python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_
 # python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
 #     output_dir="$outdir" \
 #     path="espnet/yodas" \
-#     name="fr102" \
+#     name="en003" \
 #     split="train" \
 #     text_column_name="text" \
 #     num_proc="$num_proc" \
@@ -231,7 +246,7 @@ python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_
 # python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
 #     output_dir="$outdir" \
 #     path="espnet/yodas" \
-#     name="fr103" \
+#     name="en004" \
 #     split="train" \
 #     text_column_name="text" \
 #     num_proc="$num_proc" \
@@ -239,37 +254,23 @@ python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_
 #     trust_remote_code="True" \
 #     use_auth_token="True"
 
-# exit 0;
-
-# hf eval data
 # python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
 #     output_dir="$outdir" \
-#     path="speech-recognition-community-v2/dev_data" \
-#     name="fr" \
-#     split="validation" \
-#     text_column_name="sentence" \
+#     path="espnet/yodas" \
+#     name="en005" \
+#     split="train" \
+#     text_column_name="text" \
 #     num_proc="$num_proc" \
 #     ensure_ascii="False" \
 #     trust_remote_code="True" \
 #     use_auth_token="True"
 
-# hf
 # python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
 #     output_dir="$outdir" \
-#     path="eustlb/french-long-form-test" \
-#     split="test" \
-#     text_column_name="sentence" \
-#     num_proc="$num_proc" \
-#     ensure_ascii="False" \
-#     trust_remote_code="True" \
-#     use_auth_token="True"
-
-# Accueil_UBS
-# python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
-#     output_dir="$outdir" \
-#     path="BrunoHays/Accueil_UBS" \
-#     split="test" \
-#     text_column_name="sentence" \
+#     path="espnet/yodas" \
+#     name="en100" \
+#     split="train" \
+#     text_column_name="text" \
 #     num_proc="$num_proc" \
 #     ensure_ascii="False" \
 #     trust_remote_code="True" \
