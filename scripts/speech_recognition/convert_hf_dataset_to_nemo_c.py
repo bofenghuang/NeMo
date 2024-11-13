@@ -126,10 +126,6 @@ class HFDatasetConversionConfig:
 
     hydra: HydraConf = HydraConf(run=RunDir(dir="."))
 
-    def __post_init__(self):
-        if self.pretty_path is None:
-            self.pretty_path = "/".join(self.path.rsplit("/", 2)[-2:])
-
 
 def prepare_output_dirs(cfg: HFDatasetConversionConfig):
     """
@@ -381,6 +377,10 @@ def main(cfg: HFDatasetConversionConfig):
     # Convert dataclass to omegaconf
     if is_dataclass(cfg):
         cfg = OmegaConf.structured(cfg)
+
+    # tmp
+    if cfg.pretty_path is None:
+        cfg.pretty_path = "/".join(cfg.path.rsplit("/", 2)[-2:])
 
     if cfg.num_proc < 0:
         cfg.num_proc = max(1, os.cpu_count() // 2)
