@@ -112,7 +112,7 @@ class HFDatasetConversionConfig:
     # bh:
     local_file: Optional[str] = None  # local file
     trust_remote_code: bool = False
-    pretty_path: str = None
+    pretty_path: Optional[str] = None
 
     # NeMo dataset conversion
     sampling_rate: int = 16000
