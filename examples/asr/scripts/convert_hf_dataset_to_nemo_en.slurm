@@ -50,27 +50,27 @@ outdir="$ALL_CCFRSCRATCH/corpus/speech/stt-pseudo-labeled-whisper-large-v3-multi
 num_proc="64"
 
 # mcv
-python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
-    output_dir="$outdir" \
-    path="mozilla-foundation/common_voice_17_0" \
-    name="en" \
-    split="train" \
-    text_column_name="sentence" \
-    num_proc="$num_proc" \
-    ensure_ascii="False" \
-    trust_remote_code="True" \
-    use_auth_token="True"
+# python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
+#     output_dir="$outdir" \
+#     path="mozilla-foundation/common_voice_17_0" \
+#     name="en" \
+#     split="train" \
+#     text_column_name="sentence" \
+#     num_proc="$num_proc" \
+#     ensure_ascii="False" \
+#     trust_remote_code="True" \
+#     use_auth_token="True"
 
-python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
-    output_dir="$outdir" \
-    path="mozilla-foundation/common_voice_17_0" \
-    name="en" \
-    split="validation" \
-    text_column_name="sentence" \
-    num_proc="$num_proc" \
-    ensure_ascii="False" \
-    trust_remote_code="True" \
-    use_auth_token="True"
+# python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
+#     output_dir="$outdir" \
+#     path="mozilla-foundation/common_voice_17_0" \
+#     name="en" \
+#     split="validation" \
+#     text_column_name="sentence" \
+#     num_proc="$num_proc" \
+#     ensure_ascii="False" \
+#     trust_remote_code="True" \
+#     use_auth_token="True"
 
 # python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
 #     output_dir="$outdir" \
@@ -86,16 +86,16 @@ python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_
 # exit 0;
 
 # voxpopuli
-python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
-    output_dir="$outdir" \
-    path="facebook/voxpopuli" \
-    name="en" \
-    split="train" \
-    text_column_name="normalized_text" \
-    num_proc="$num_proc" \
-    ensure_ascii="False" \
-    trust_remote_code="True" \
-    use_auth_token="True"
+# python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
+#     output_dir="$outdir" \
+#     path="facebook/voxpopuli" \
+#     name="en" \
+#     split="train" \
+#     text_column_name="normalized_text" \
+#     num_proc="$num_proc" \
+#     ensure_ascii="False" \
+#     trust_remote_code="True" \
+#     use_auth_token="True"
 
 # python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
 #     output_dir="$outdir" \
@@ -112,52 +112,52 @@ python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_
 
 # People's Speech
 export num_proc=1
-# python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
-#     output_dir="$outdir" \
-#     path="MLCommons/peoples_speech" \
-#     name="clean" \
-#     split="train" \
-#     text_column_name="text" \
-#     num_proc="$num_proc" \
-#     ensure_ascii="False" \
-#     trust_remote_code="True" \
-#     use_auth_token="True"
+python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
+    output_dir="$outdir" \
+    path="MLCommons/peoples_speech" \
+    name="clean" \
+    split="train" \
+    text_column_name="text" \
+    num_proc="$num_proc" \
+    ensure_ascii="False" \
+    trust_remote_code="True" \
+    use_auth_token="True"
 
-# python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
-#     output_dir="$outdir" \
-#     path="MLCommons/peoples_speech" \
-#     name="clean_sa" \
-#     split="train" \
-#     text_column_name="text" \
-#     num_proc="$num_proc" \
-#     ensure_ascii="False" \
-#     trust_remote_code="True" \
-#     use_auth_token="True"
+python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
+    output_dir="$outdir" \
+    path="MLCommons/peoples_speech" \
+    name="clean_sa" \
+    split="train" \
+    text_column_name="text" \
+    num_proc="$num_proc" \
+    ensure_ascii="False" \
+    trust_remote_code="True" \
+    use_auth_token="True"
 
 # exit 0;
 
 # GigaSpeech
-# python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
-#     output_dir="$outdir" \
-#     path="speechcolab/gigaspeech" \
-#     name="l" \
-#     split="train" \
-#     num_proc="$num_proc" \
-#     ensure_ascii="False" \
-#     trust_remote_code="True" \
-#     use_auth_token="True"
+python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
+    output_dir="$outdir" \
+    path="speechcolab/gigaspeech" \
+    name="l" \
+    split="train" \
+    num_proc="$num_proc" \
+    ensure_ascii="False" \
+    trust_remote_code="True" \
+    use_auth_token="True"
 
 # exit 0;
 
 # ls
-# python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
-#     output_dir="$outdir" \
-#     path="openslr/librispeech_asr" \
-#     split="train.clean.100+train.clean.360+train.other.500" \
-#     num_proc="$num_proc" \
-#     ensure_ascii="False" \
-#     trust_remote_code="True" \
-#     use_auth_token="True"
+python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
+    output_dir="$outdir" \
+    path="openslr/librispeech_asr" \
+    split="train.clean.100+train.clean.360+train.other.500" \
+    num_proc="$num_proc" \
+    ensure_ascii="False" \
+    trust_remote_code="True" \
+    use_auth_token="True"
 
 # TED-LIUM
 # todo: update norm to deal {}
