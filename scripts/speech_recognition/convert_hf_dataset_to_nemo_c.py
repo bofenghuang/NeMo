@@ -318,7 +318,7 @@ def convert_streaming_dataset_to_nemo(
             manifest_line = {
                 'audio_filepath': audio_filepath,
                 'text': sample['text'],
-                'duration': librosa.get_duration(sample['audio']['array'], sr=cfg.sampling_rate),
+                'duration': librosa.get_duration(y=sample['audio']['array'], sr=cfg.sampling_rate),
             }
 
             # remove large components from sample
