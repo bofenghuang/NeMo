@@ -299,11 +299,13 @@ def convert_streaming_dataset_to_nemo(
 
     ds_iter = iter(dataset)
 
-    sub_dir_id = 0
+    sub_dir_id = -1
     with open(manifest_filepath, 'w') as manifest_f:
         for idx, sample in enumerate(
             tqdm.tqdm(ds_iter, desc=f'Processing {cfg.path} (split: {cfg.split}):', unit=' samples')
         ):
+            if idx % 5_000 == 0:
+                sub_dir_id += 1
 
             # audio_filepath = sample['audio']['path'].split("::")[0].replace("zip://", "")
             # bh:
@@ -330,9 +332,6 @@ def convert_streaming_dataset_to_nemo(
             manifest_line.update(sample)
 
             manifest_f.write(f"{json.dumps(manifest_line, ensure_ascii=cfg.ensure_ascii)}\n")
-
-            if idx % 5_000 == 0:
-                sub_dir_id += 1
 
 
 def process_dataset(dataset: IterableDataset, cfg: HFDatasetConversionConfig):
