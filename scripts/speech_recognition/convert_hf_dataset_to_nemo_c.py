@@ -304,7 +304,10 @@ def convert_streaming_dataset_to_nemo(
             tqdm.tqdm(ds_iter, desc=f'Processing {cfg.path} (split: {cfg.split}):', unit=' samples')
         ):
 
-            audio_filepath = sample['audio']['path'].split("::")[0].replace("zip://", "")
+            # audio_filepath = sample['audio']['path'].split("::")[0].replace("zip://", "")
+            # bh:
+            segments = infer_dataset_segments(sample)
+            audio_filepath = os.path.join(*segments)
             audio_filepath = os.path.abspath(os.path.join(basedir, audio_filepath))
             audio_filepath = prepare_audio_filepath(audio_filepath)
 
