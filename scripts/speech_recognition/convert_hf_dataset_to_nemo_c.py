@@ -329,7 +329,7 @@ def convert_streaming_dataset_to_nemo(
 
             manifest_line.update(sample)
 
-            manifest_f.write(f"{json.dumps(sample, ensure_ascii=cfg.ensure_ascii)}\n")
+            manifest_f.write(f"{json.dumps(manifest_line, ensure_ascii=cfg.ensure_ascii)}\n")
 
             if idx % 5_000 == 0:
                 sub_dir_id += 1
