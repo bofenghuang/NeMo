@@ -47,7 +47,7 @@ NEMO_GIT_FOLDER="$HOME/NeMo"
 # outdir="$ALL_CCFRSCRATCH/corpus/speech/nemo_manifests"
 outdir="$ALL_CCFRSCRATCH/corpus/speech/stt-pseudo-labeled-whisper-large-v3-multilingual"
 
-# num_proc="16"
+num_proc="16"
 
 name=$1
 
@@ -62,6 +62,7 @@ python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_
     split="train" \
     text_column_name="text" \
     num_proc="$num_proc" \
+    streaming="True" \
     ensure_ascii="False" \
     trust_remote_code="True" \
     use_auth_token="True"
