@@ -8,7 +8,7 @@
 #SBATCH --time=20:00:00                         # maximum execution time (HH:MM:SS)
 #SBATCH --qos=qos_cpu-t3                        # QoS
 #SBATCH --hint=nomultithread                    # we get physical cores not logical
-#SBATCH --partition=cpu_p1
+#SBATCH --partition=prepost
 #SBATCH --account=cjc@cpu
 
 set -x -e
@@ -47,7 +47,7 @@ NEMO_GIT_FOLDER="$HOME/NeMo"
 # outdir="$ALL_CCFRSCRATCH/corpus/speech/nemo_manifests"
 outdir="$ALL_CCFRSCRATCH/corpus/speech/stt-pseudo-labeled-whisper-large-v3-multilingual"
 
-num_proc="64"
+# num_proc="16"
 
 name=$1
 
