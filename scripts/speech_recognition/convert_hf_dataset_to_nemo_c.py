@@ -299,6 +299,7 @@ def convert_streaming_dataset_to_nemo(
 
     ds_iter = iter(dataset)
 
+    sub_dir_id = 0
     with open(manifest_filepath, 'w') as manifest_f:
         for idx, sample in enumerate(
             tqdm.tqdm(ds_iter, desc=f'Processing {cfg.path} (split: {cfg.split}):', unit=' samples')
@@ -306,9 +307,10 @@ def convert_streaming_dataset_to_nemo(
 
             # audio_filepath = sample['audio']['path'].split("::")[0].replace("zip://", "")
             # bh:
-            segments = infer_dataset_segments(sample)
-            audio_filepath = os.path.join(*segments)
-            audio_filepath = os.path.abspath(os.path.join(basedir, audio_filepath))
+            # segments = infer_dataset_segments(sample)
+            # audio_filepath = os.path.join(*segments)
+            # audio_filepath = os.path.abspath(os.path.join(basedir, audio_filepath))
+            audio_filepath = os.path.abspath(os.path.join(basedir, f"{sub_dir_id:08d}", f'{sample["utt_id"]}.wav'))
             audio_filepath = prepare_audio_filepath(audio_filepath)
 
             soundfile.write(audio_filepath, sample['audio']['array'], samplerate=cfg.sampling_rate, format='wav')
@@ -328,6 +330,9 @@ def convert_streaming_dataset_to_nemo(
             manifest_line.update(sample)
 
             manifest_f.write(f"{json.dumps(sample, ensure_ascii=cfg.ensure_ascii)}\n")
+
+            if idx % 5_000 == 0:
+                sub_dir_id += 1
 
 
 def process_dataset(dataset: IterableDataset, cfg: HFDatasetConversionConfig):
@@ -408,7 +413,7 @@ def main(cfg: HFDatasetConversionConfig):
                 streaming=cfg.streaming,
                 token=cfg.use_auth_token,
                 trust_remote_code=cfg.trust_remote_code,
-                num_proc=cfg.num_proc,
+                # num_proc=cfg.num_proc,
             )
 
         print(dataset)
