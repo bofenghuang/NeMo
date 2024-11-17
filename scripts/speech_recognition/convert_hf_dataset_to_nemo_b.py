@@ -155,6 +155,16 @@ def infer_dataset_segments(batch):
     """
     segments = []
     segment, path = os.path.split(batch['audio']['path'])
+    # bh: for tedlium
+    # segment, path = os.path.split(batch['file'])
+    # _, start, end, _ = batch['id'].split("-")
+    # try:
+    #     filename, ext = path.split(".")
+    # except:
+    #     filename = path
+    #     ext = ".wav"
+    # path = f"{filename}_{(float(start) * 1000):.0f}_{float(end) * 1000:.0f}.{ext}"
+
     segments.insert(0, path)
     while segment not in ('', os.path.sep):
         segment, path = os.path.split(segment)
