@@ -170,27 +170,27 @@ num_proc="64"
 #     use_auth_token="True"
 
 # AMI
-python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
-    output_dir="$outdir" \
-    path="distil-whisper/ami-ihm" \
-    name="ihm" \
-    split="train" \
-    num_proc="$num_proc" \
-    ensure_ascii="False" \
-    trust_remote_code="True" \
-    use_auth_token="True"
+# python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
+#     output_dir="$outdir" \
+#     path="distil-whisper/ami-ihm" \
+#     name="ihm" \
+#     split="train" \
+#     num_proc="$num_proc" \
+#     ensure_ascii="False" \
+#     trust_remote_code="True" \
+#     use_auth_token="True"
 
-python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
-    output_dir="$outdir" \
-    path="distil-whisper/ami-ihm" \
-    name="sdm" \
-    split="train" \
-    num_proc="$num_proc" \
-    ensure_ascii="False" \
-    trust_remote_code="True" \
-    use_auth_token="True"
+# python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
+#     output_dir="$outdir" \
+#     path="distil-whisper/ami-sdm" \
+#     name="sdm" \
+#     split="train" \
+#     num_proc="$num_proc" \
+#     ensure_ascii="False" \
+#     trust_remote_code="True" \
+#     use_auth_token="True"
 
-# todo: tedlium, Fisher, SwitchBoard, 
+# todo: Fisher, SwitchBoard, 
 
 # fleurs
 # python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \

@@ -11,6 +11,8 @@
 #SBATCH --partition=prepost
 #SBATCH --account=cjc@cpu
 
+# convert data from downloaded repo, e.g., yodas on jz
+
 set -x -e
 
 # set up environment
