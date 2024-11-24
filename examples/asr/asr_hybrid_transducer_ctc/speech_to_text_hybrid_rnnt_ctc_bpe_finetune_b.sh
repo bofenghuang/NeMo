@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 # Copyright 2023  Bofeng Huang
 
-"""
-Finetune stt_fr_conformer_transducer_large on
-"""
+# Finetune stt_fr_conformer_transducer_large on zaion data
 
 export HYDRA_FULL_ERROR=1
 
