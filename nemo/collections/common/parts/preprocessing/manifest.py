@@ -108,6 +108,9 @@ def __parse_item(line: str, manifest_file: str) -> Dict[str, Any]:
     # Audio file
     if 'audio_filename' in item:
         item['audio_file'] = item.pop('audio_filename')
+    # bh: zipped audio
+    elif 'audio_zip_filepath' in item:
+        item['audio_file'] = item.pop('audio_zip_filepath')
     elif 'audio_filepath' in item:
         item['audio_file'] = item.pop('audio_filepath')
     elif 'context' in item:

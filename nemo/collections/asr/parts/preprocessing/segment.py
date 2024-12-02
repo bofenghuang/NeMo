@@ -44,6 +44,8 @@ import numpy.typing as npt
 import soundfile as sf
 
 from nemo.utils import logging
+# bh: zipped audio
+from nemo.collections.asr.data.audio_utils import get_waveform_from_stored_zip, parse_path
 
 # TODO @blisc: Perhaps refactor instead of import guarding
 HAVE_PYDUB = True
@@ -348,6 +350,18 @@ class AudioSegment(object):
 
                 if hasattr(audio_file, "seek"):
                     audio_file.seek(0)
+
+        # bh: zipped audio
+        if isinstance(audio_file, str):
+            _path, slice_ptr = parse_path(audio_file)
+            if len(slice_ptr) == 2:
+                samples, sample_rate = get_waveform_from_stored_zip(
+                    _path,
+                    slice_ptr[0],
+                    slice_ptr[1],
+                    # use_sample_rate=use_sample_rate,
+                    # waveform_transforms=waveform_transforms,
+                )
 
         if HAVE_PYDUB and samples is None:
             try:
