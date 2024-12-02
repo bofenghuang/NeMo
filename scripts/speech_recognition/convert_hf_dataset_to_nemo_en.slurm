@@ -14,14 +14,14 @@
 set -x -e
 
 # set up environment
-module purge
-# module load arch/h100
-module load git-lfs
-module load unrar
-module load anaconda-py3/2024.06
-module load cuda/12.2.0
-# conda activate speech
-conda activate asr
+# module purge
+# # module load arch/h100
+# module load git-lfs
+# module load unrar
+# module load anaconda-py3/2024.06
+# module load cuda/12.2.0
+# # conda activate speech
+# conda activate asr
 
 # Convert datasets on Hugging Face Hub or local datasets to NeMo's manifest format.
 # Also resample and export to wav files.
@@ -42,10 +42,10 @@ export REUSE_DATASET_IF_EXISTS="false"
 # NEMO_GIT_FOLDER="/home/bhuang/asr/NeMo"
 NEMO_GIT_FOLDER="$HOME/NeMo"
 
-# outdir="/projects/bhuang/corpus/speech/nemo_manifests"
+outdir="/projects/bhuang/corpus/speech/nemo_manifests"
 # outdir="$ALL_CCFRWORK/corpus/speech/nemo_manifests"
 # outdir="$ALL_CCFRSCRATCH/corpus/speech/nemo_manifests"
-outdir="$ALL_CCFRSCRATCH/corpus/speech/stt-pseudo-labeled-whisper-large-v3-multilingual"
+# outdir="$ALL_CCFRSCRATCH/corpus/speech/stt-pseudo-labeled-whisper-large-v3-multilingual"
 
 num_proc="64"
 
@@ -61,16 +61,16 @@ num_proc="64"
 #     trust_remote_code="True" \
 #     use_auth_token="True"
 
-# python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
-#     output_dir="$outdir" \
-#     path="mozilla-foundation/common_voice_17_0" \
-#     name="en" \
-#     split="validation" \
-#     text_column_name="sentence" \
-#     num_proc="$num_proc" \
-#     ensure_ascii="False" \
-#     trust_remote_code="True" \
-#     use_auth_token="True"
+python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
+    output_dir="$outdir" \
+    path="mozilla-foundation/common_voice_17_0" \
+    name="en" \
+    split="validation" \
+    text_column_name="sentence" \
+    num_proc="$num_proc" \
+    ensure_ascii="False" \
+    trust_remote_code="True" \
+    use_auth_token="True"
 
 # python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
 #     output_dir="$outdir" \
@@ -100,7 +100,7 @@ num_proc="64"
 # python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
 #     output_dir="$outdir" \
 #     path="facebook/voxpopuli" \
-#     name="fr" \
+#     name="en" \
 #     split="test" \
 #     text_column_name="normalized_text" \
 #     num_proc="$num_proc" \
@@ -146,6 +146,17 @@ num_proc="64"
 #     trust_remote_code="True" \
 #     use_auth_token="True"
 
+# python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
+#     output_dir="$outdir" \
+#     path="speechcolab/gigaspeech" \
+#     name="test" \
+#     split="test" \
+#     num_proc="$num_proc" \
+#     ensure_ascii="False" \
+#     trust_remote_code="True" \
+#     use_auth_token="True"
+
+
 # exit 0;
 
 # ls
@@ -153,6 +164,24 @@ num_proc="64"
 #     output_dir="$outdir" \
 #     path="openslr/librispeech_asr" \
 #     split="train.clean.100+train.clean.360+train.other.500" \
+#     num_proc="$num_proc" \
+#     ensure_ascii="False" \
+#     trust_remote_code="True" \
+#     use_auth_token="True"
+
+# python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
+#     output_dir="$outdir" \
+#     path="openslr/librispeech_asr" \
+#     split="test.clean" \
+#     num_proc="$num_proc" \
+#     ensure_ascii="False" \
+#     trust_remote_code="True" \
+#     use_auth_token="True"
+
+# python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
+#     output_dir="$outdir" \
+#     path="openslr/librispeech_asr" \
+#     split="test.other" \
 #     num_proc="$num_proc" \
 #     ensure_ascii="False" \
 #     trust_remote_code="True" \
@@ -168,6 +197,18 @@ num_proc="64"
 #     ensure_ascii="False" \
 #     trust_remote_code="True" \
 #     use_auth_token="True"
+
+# python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
+#     output_dir="$outdir" \
+#     path="LIUM/tedlium" \
+#     name="release3" \
+#     split="test" \
+#     num_proc="$num_proc" \
+#     ensure_ascii="False" \
+#     trust_remote_code="True" \
+#     use_auth_token="True"
+
+# exit 0;
 
 # AMI
 # python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
@@ -190,19 +231,21 @@ num_proc="64"
 #     trust_remote_code="True" \
 #     use_auth_token="True"
 
+# exit 0;
+
 # todo: Fisher, SwitchBoard, 
 
 # fleurs
-# python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
-#     output_dir="$outdir" \
-#     path="google/fleurs" \
-#     name="en_us" \
-#     split="validation" \
-#     text_column_name="raw_transcription" \
-#     num_proc="$num_proc" \
-#     ensure_ascii="False" \
-#     trust_remote_code="True" \
-#     use_auth_token="True"
+python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
+    output_dir="$outdir" \
+    path="google/fleurs" \
+    name="en_us" \
+    split="validation" \
+    text_column_name="raw_transcription" \
+    num_proc="$num_proc" \
+    ensure_ascii="False" \
+    trust_remote_code="True" \
+    use_auth_token="True"
 
 # python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
 #     output_dir="$outdir" \
@@ -229,6 +272,9 @@ num_proc="64"
 #     trust_remote_code="True" \
 #     use_auth_token="True"
 
+# exit 0;
+
+# yodas
 # python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
 #     output_dir="$outdir" \
 #     path="espnet/yodas" \
@@ -294,3 +340,28 @@ num_proc="64"
 #     ensure_ascii="False" \
 #     trust_remote_code="True" \
 #     use_auth_token="True"
+
+# spgispeech
+# python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
+#     output_dir="$outdir" \
+#     path="kensho/spgispeech" \
+#     name="test" \
+#     split="test" \
+#     text_column_name="transcript" \
+#     num_proc="$num_proc" \
+#     ensure_ascii="False" \
+#     trust_remote_code="True" \
+#     use_auth_token="True"
+
+# earnings22
+# python ${NEMO_GIT_FOLDER}/scripts/speech_recognition/convert_hf_dataset_to_nemo_b.py \
+#     output_dir="$outdir" \
+#     path="revdotcom/earnings22" \
+#     split="test" \
+#     text_column_name="sentence" \
+#     num_proc="$num_proc" \
+#     ensure_ascii="False" \
+#     trust_remote_code="True" \
+#     use_auth_token="True"
+
+

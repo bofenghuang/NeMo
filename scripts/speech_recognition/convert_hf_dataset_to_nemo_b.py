@@ -97,6 +97,8 @@ from hydra.conf import HydraConf, RunDir
 from hydra.core.config_store import ConfigStore
 from omegaconf import OmegaConf
 
+import aiohttp
+
 
 @dataclass
 class HFDatasetConversionConfig:
@@ -246,7 +248,10 @@ def build_map_dataset_to_nemo_func(cfg: HFDatasetConversionConfig, basedir):
 
 
 def convert_offline_dataset_to_nemo(
-    dataset: Dataset, cfg: HFDatasetConversionConfig, basedir: str, manifest_filepath: str,
+    dataset: Dataset,
+    cfg: HFDatasetConversionConfig,
+    basedir: str,
+    manifest_filepath: str,
 ):
     """
     Converts a HF dataset to a audio-preprocessed Nemo dataset in Offline mode.
@@ -408,6 +413,8 @@ def main(cfg: HFDatasetConversionConfig):
                 token=cfg.use_auth_token,
                 trust_remote_code=cfg.trust_remote_code,
                 num_proc=cfg.num_proc,
+                # https://github.com/huggingface/datasets/issues/7164
+                # storage_options={"client_kwargs": {"timeout": aiohttp.ClientTimeout(total=3600)}},
             )
 
         print(dataset)
