@@ -185,3 +185,4 @@ slurm*.out
 # bh:
 /decoders/
 tmp*
+logs/

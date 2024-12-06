@@ -9,7 +9,6 @@
 # conda remove numba
 # pip uninstall numba
 # conda install -c conda-forge numba
-# pip install torchaudio
 # pip install numpy==1.26.4
 
 export HYDRA_FULL_ERROR=1

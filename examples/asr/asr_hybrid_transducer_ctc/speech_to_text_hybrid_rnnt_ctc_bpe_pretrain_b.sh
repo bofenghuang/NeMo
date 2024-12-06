@@ -20,7 +20,7 @@ tokenizer_dir="/home/bhuang/asr/NeMo/examples/asr/nemo_experiments/tokenizers_ge
 tardir="/projects/bhuang/corpus/speech/nemo_manifests/final/2023-09-14/train_asr_processed_dedup256_tarred"
 train_manifest_filepath="[[$tardir/bucket1/tarred_audio_manifest.json],[$tardir/bucket2/tarred_audio_manifest.json],[$tardir/bucket3/tarred_audio_manifest.json],[$tardir/bucket4/tarred_audio_manifest.json]]"
 train_tarred_audio_filepaths="[[$tardir/bucket1/audio__OP_0..7_CL_.tar],[$tardir/bucket2/audio__OP_0..7_CL_.tar],[$tardir/bucket3/audio__OP_0..7_CL_.tar],[$tardir/bucket4/audio__OP_0..7_CL_.tar]]"
-# valida data manifedt
+# valid data manifest
 validation_manifest_filepath="[/projects/bhuang/corpus/speech/nemo_manifests/mozilla-foundation/common_voice_13_0/fr/validation/validation_mozilla-foundation_common_voice_13_0_manifest_normalized.json,/projects/bhuang/corpus/speech/nemo_manifests/facebook/multilingual_librispeech/french/validation/validation_facebook_multilingual_librispeech_manifest_normalized.json,/projects/bhuang/corpus/speech/nemo_manifests/facebook/voxpopuli/fr/validation/validation_facebook_voxpopuli_manifest_normalized.json,/projects/bhuang/corpus/speech/nemo_manifests/google/fleurs/fr_fr/validation/validation_google_fleurs_manifest_normalized.json,/projects/bhuang/corpus/speech/nemo_manifests/mtedx/fr-fr/valid/valid_mtedx_manifest_normalized.json]"
 # output
 outdir="/home/bhuang/asr/NeMo/examples/asr/nemo_experiments/stt_fr_fastconformer_hybrid_transducer_ctc_bpe/large_bs2048_lr1e3"
